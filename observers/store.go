@@ -2,8 +2,8 @@ package observers
 
 import (
 	"context"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"github.com/google/uuid"
-	pb "social-casino-platform/g1/pkg/pubsub/proto"
 	"sync"
 )
 

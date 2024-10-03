@@ -3,9 +3,9 @@ package pubsub
 import (
 	"context"
 	"fmt"
+	"github.com/BetBit/pubsub-go/metadata"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"github.com/google/uuid"
-	"social-casino-platform/g1/pkg/pubsub/metadata"
-	pb "social-casino-platform/g1/pkg/pubsub/proto"
 	"time"
 )
 

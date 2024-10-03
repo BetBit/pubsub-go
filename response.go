@@ -2,7 +2,7 @@ package pubsub
 
 import (
 	"context"
-	"social-casino-platform/g1/pkg/pubsub/observers"
+	"github.com/BetBit/pubsub-go/observers"
 )
 
 type Response struct {

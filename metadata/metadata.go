@@ -3,7 +3,7 @@ package metadata
 import (
 	"context"
 	"fmt"
-	pb "social-casino-platform/g1/pkg/pubsub/proto"
+	pb "github.com/BetBit/pubsub-go/proto"
 )
 
 type Metadata struct {

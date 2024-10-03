@@ -1,4 +1,4 @@
-module pubsub-go
+module github.com/BetBit/pubsub-go
 
 go 1.23.1
 

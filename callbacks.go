@@ -1,7 +1,7 @@
 package pubsub
 
 import (
-	pb "social-casino-platform/g1/pkg/pubsub/proto"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"sync"
 )
 

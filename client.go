@@ -3,12 +3,12 @@ package pubsub
 import (
 	"context"
 	"fmt"
+	"github.com/BetBit/pubsub-go/metadata"
+	"github.com/BetBit/pubsub-go/observers"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"social-casino-platform/g1/pkg/pubsub/metadata"
-	"social-casino-platform/g1/pkg/pubsub/observers"
-	pb "social-casino-platform/g1/pkg/pubsub/proto"
 	"time"
 )
 
