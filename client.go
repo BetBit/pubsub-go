@@ -141,11 +141,12 @@ func (c *Client) connect() {
 }
 
 func (c *Client) handleError(err error) {
+	fmt.Println("Error connection:", err)
 	switch status.Code(err) {
 	case codes.Unavailable:
 		c.reconnect()
 	default:
-		panic(err)
+		c.reconnect()
 	}
 }
 
