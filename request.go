@@ -46,7 +46,7 @@ type Request struct {
 }
 
 // Sub - Subscribe to event
-func (r *Request) Sub(event string, cb func(ctx context.Context, payload []byte)) error {
+func (r *Request) Sub(event string) ([]byte, error) {
 	msgChan := make(chan *pb.Event)
 	defer close(msgChan)
 
@@ -75,14 +75,11 @@ func (r *Request) Sub(event string, cb func(ctx context.Context, payload []byte)
 	}
 
 	r.callbacks.Delete(r.id)
-	ctx := metadata.CreateContext(msg)
 	if msg.Error != "" {
-		return fmt.Errorf(msg.Error)
+		return nil, fmt.Errorf(msg.Error)
 	}
 
-	cb(ctx, msg.Payload)
-
-	return err
+	return msg.Payload, err
 }
 
 // Do - Send event
