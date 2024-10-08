@@ -14,6 +14,18 @@ type Metadata struct {
 	Error     error
 }
 
+func WithBrand(ctx context.Context, brand string) context.Context {
+	md := FromContext(ctx)
+	if md == nil {
+		md = &Metadata{
+			Brand: brand,
+		}
+	} else {
+		md.Brand = brand
+	}
+	return context.WithValue(ctx, "metadata", md)
+}
+
 func WithError(ctx context.Context, err error) context.Context {
 	md := FromContext(ctx)
 	if md == nil {

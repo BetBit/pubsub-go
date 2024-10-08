@@ -53,6 +53,10 @@ type Client struct {
 	stream    pb.PubSub_ChannelClient
 }
 
+func (c *Client) WithBrand(ctx context.Context, brand string) context.Context {
+	return metadata.WithBrand(ctx, brand)
+}
+
 // Brand - Get brand from event
 func (c *Client) Brand(ctx context.Context) string {
 	return metadata.FromContext(ctx).Brand
