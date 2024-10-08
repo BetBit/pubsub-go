@@ -120,8 +120,6 @@ func (c *Client) observe(stream pb.PubSub_ChannelClient) {
 }
 
 func (c *Client) connect() {
-	fmt.Println(fmt.Sprintf("Servise %s connecting...", c.clientId))
-
 	cli := pb.NewPubSubClient(c.conn)
 	ctx := context.Background()
 
@@ -140,12 +138,10 @@ func (c *Client) connect() {
 	}
 
 	fmt.Println(fmt.Sprintf("Servise %s connect", c.clientId))
-	c.attempts = 1
 	c.observe(stream)
 }
 
 func (c *Client) handleError(err error) {
-	fmt.Println("Error connection:", err)
 	switch status.Code(err) {
 	case codes.Unavailable:
 		c.reconnect()
