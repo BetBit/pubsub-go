@@ -145,7 +145,7 @@ func (c *Client) handleError(err error) {
 	case codes.Unavailable:
 		c.reconnect()
 	default:
-		c.reconnect()
+		panic(err)
 	}
 }
 
