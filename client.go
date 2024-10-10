@@ -147,8 +147,6 @@ func (c *Client) handleError(err error) {
 		panic(fmt.Sprintf("Invalid argument: %s", err.Error()))
 	case codes.Unauthenticated:
 		panic(fmt.Sprintf("Unauthenticated: %s", err.Error()))
-	case codes.Internal:
-		panic(fmt.Sprintf("Internal: %s", err.Error()))
 	case codes.Unavailable:
 		c.reconnect()
 	default:
@@ -159,6 +157,7 @@ func (c *Client) handleError(err error) {
 func (c *Client) handleMessage(msg *pb.Event) {
 	switch msg.Name {
 	case "_.hello":
+		c.attempts = 0
 		c.waiters.Done()
 	case "_.event.forbidden":
 		panic(fmt.Sprintf("Event forbidden: %s", msg.Payload))
