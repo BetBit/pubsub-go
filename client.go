@@ -19,6 +19,7 @@ type Options struct {
 	Publishers  []string
 	Subscribers []string
 	Connect     *grpc.ClientConn
+	OnlyRoot    bool
 }
 
 func New(opt Options) *Client {
@@ -27,6 +28,7 @@ func New(opt Options) *Client {
 		token:       opt.Token,
 		clientId:    opt.ID,
 		brand:       opt.Brand,
+		onlyRoot:    opt.OnlyRoot,
 		publishers:  opt.Publishers,
 		subscribers: opt.Subscribers,
 		observers:   observers.New(),
@@ -43,6 +45,7 @@ type Client struct {
 	token       string
 	clientId    string
 	brand       string
+	onlyRoot  	bool
 	publishers  []string
 	subscribers []string
 	attempts    int
@@ -126,6 +129,7 @@ func (c *Client) connect() {
 	md := &auth{
 		ClientId:    c.clientId,
 		Brand:       c.brand,
+		OnlyRoot:    c.onlyRoot,
 		Publishers:  c.publishers,
 		Subscribers: c.subscribers,
 	}
