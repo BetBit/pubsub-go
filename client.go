@@ -143,6 +143,12 @@ func (c *Client) connect() {
 
 func (c *Client) handleError(err error) {
 	switch status.Code(err) {
+	case codes.InvalidArgument:
+		panic(fmt.Sprintf("Invalid argument: %s", err.Error()))
+	case codes.Unauthenticated:
+		panic(fmt.Sprintf("Unauthenticated: %s", err.Error()))
+	case codes.Internal:
+		panic(fmt.Sprintf("Internal: %s", err.Error()))
 	case codes.Unavailable:
 		c.reconnect()
 	default:
