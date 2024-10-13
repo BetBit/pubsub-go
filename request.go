@@ -25,7 +25,9 @@ func (r *Request) Do() {
 	} else {
 		id = md.eventId
 		brand = md.brand
-		errMsg = md.error.Error()
+		if md.error != nil {
+			errMsg = md.error.Error()
+		}
 	}
 
 	r.connector.Pub(&pb.Event{
