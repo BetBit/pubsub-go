@@ -2,8 +2,8 @@ package pubsub
 
 import (
 	"context"
-	pb "event-source-platform/office/pkg/pubsub/proto"
 	"fmt"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"github.com/google/uuid"
 )
 

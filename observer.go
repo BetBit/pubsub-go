@@ -2,8 +2,8 @@ package pubsub
 
 import (
 	"context"
-	pb "event-source-platform/office/pkg/pubsub/proto"
 	"fmt"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -25,6 +25,7 @@ type observer struct {
 	pause    chan struct{}
 	start    chan struct{}
 	attempts int
+	OnlyRoot bool
 }
 
 func (o *observer) Pub(msg *pb.Event) {
@@ -98,6 +99,7 @@ func (o *observer) connect() {
 		Brand:       o.Brand,
 		Publishers:  o.Publishers,
 		Subscribers: o.Subscribers,
+		OnlyRoot:    o.OnlyRoot,
 	}
 	md = createAuth(md, o.Token)
 

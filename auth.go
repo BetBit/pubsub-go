@@ -17,6 +17,7 @@ import (
 type auth struct {
 	ClientId    string
 	Brand       string
+	OnlyRoot    bool
 	Publishers  []string
 	Subscribers []string
 	nonce       string
@@ -25,10 +26,16 @@ type auth struct {
 }
 
 func (a *auth) WithContext(ctx context.Context) context.Context {
+	onlyRoot := "false"
+	if a.OnlyRoot {
+		onlyRoot = "true"
+	}
+
 	return md.NewOutgoingContext(ctx, md.Pairs(
 		"client-id", a.ClientId,
 		"brand-id", a.Brand,
 		"nonce", a.nonce,
+		"only-root", onlyRoot,
 		"timestamp", a.timestamp,
 		"sign", a.sign,
 		"publishers", strings.Join(a.Publishers, ","),

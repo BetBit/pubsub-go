@@ -1,8 +1,8 @@
 package pubsub
 
 import (
-	pb "event-source-platform/office/pkg/pubsub/proto"
 	"fmt"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"sync"
 )
 

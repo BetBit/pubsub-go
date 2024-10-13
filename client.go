@@ -2,7 +2,7 @@ package pubsub
 
 import (
 	"context"
-	pb "event-source-platform/office/pkg/pubsub/proto"
+	pb "github.com/BetBit/pubsub-go/proto"
 )
 
 type Options struct {
@@ -10,6 +10,7 @@ type Options struct {
 	Token       string
 	ID          string
 	Brand       string
+	OnlyRoot    bool
 	Subscribers []string
 	Publishers  []string
 }
@@ -29,6 +30,7 @@ func New(opt Options) *Client {
 			Subscribers: opt.Subscribers,
 			Publishers:  opt.Publishers,
 			ReqPool:     reqPool,
+			OnlyRoot:    opt.OnlyRoot,
 		}),
 		subscribers: subs,
 		callbacks:   cbs,

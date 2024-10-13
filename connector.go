@@ -1,7 +1,7 @@
 package pubsub
 
 import (
-	pb "event-source-platform/office/pkg/pubsub/proto"
+	pb "github.com/BetBit/pubsub-go/proto"
 	"sync"
 )
 
@@ -13,6 +13,7 @@ type OptionsConnector struct {
 	Subscribers []string
 	ID          string
 	ReqPool     chan *pb.Event
+	OnlyRoot    bool
 }
 
 func NewConnector(opt OptionsConnector) *connector {
@@ -26,6 +27,7 @@ func NewConnector(opt OptionsConnector) *connector {
 			Publishers:  opt.Publishers,
 			Subscribers: opt.Subscribers,
 			reqPool:     opt.ReqPool,
+			OnlyRoot:    opt.OnlyRoot,
 		}
 
 		cli.Init()
