@@ -18,6 +18,7 @@ type auth struct {
 	ClientId    string
 	Brand       string
 	OnlyRoot    bool
+	Address     string
 	Publishers  []string
 	Subscribers []string
 	nonce       string
@@ -35,6 +36,7 @@ func (a *auth) WithContext(ctx context.Context) context.Context {
 		"client-id", a.ClientId,
 		"brand-id", a.Brand,
 		"nonce", a.nonce,
+		"address", a.Address,
 		"only-root", onlyRoot,
 		"timestamp", a.timestamp,
 		"sign", a.sign,

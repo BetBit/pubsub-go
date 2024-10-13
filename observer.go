@@ -100,6 +100,7 @@ func (o *observer) connect() {
 		Publishers:  o.Publishers,
 		Subscribers: o.Subscribers,
 		OnlyRoot:    o.OnlyRoot,
+		Address:     o.Addr,
 	}
 	md = createAuth(md, o.Token)
 
