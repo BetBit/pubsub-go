@@ -22,19 +22,17 @@ type auth struct {
 	nonce       string
 	timestamp   string
 	sign        string
-	OnlyRoot    bool
 }
 
-func (m *auth) WithContext(ctx context.Context) context.Context {
+func (a *auth) WithContext(ctx context.Context) context.Context {
 	return md.NewOutgoingContext(ctx, md.Pairs(
-		"client-id", m.ClientId,
-		"brand-id", m.Brand,
-		"only-root", strconv.FormatBool(m.OnlyRoot),
-		"nonce", m.nonce,
-		"timestamp", m.timestamp,
-		"sign", m.sign,
-		"publishers", strings.Join(m.Publishers, ","),
-		"subscribers", strings.Join(m.Subscribers, ","),
+		"client-id", a.ClientId,
+		"brand-id", a.Brand,
+		"nonce", a.nonce,
+		"timestamp", a.timestamp,
+		"sign", a.sign,
+		"publishers", strings.Join(a.Publishers, ","),
+		"subscribers", strings.Join(a.Subscribers, ","),
 	))
 }
 

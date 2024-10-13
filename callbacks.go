@@ -1,38 +1,58 @@
 package pubsub
 
 import (
-	pb "github.com/BetBit/pubsub-go/proto"
+	"context"
+	pb "event-source-platform/office/pkg/pubsub/proto"
 	"sync"
 )
 
 func newCallbacks() *callbacks {
 	return &callbacks{
-		handlers: make(map[string]chan *pb.Event),
+		list: make(map[string]*handler),
 	}
 }
 
 type callbacks struct {
-	rw       sync.RWMutex
-	handlers map[string]chan *pb.Event
-}
-
-func (c *callbacks) Add(id string, msg chan *pb.Event) {
-	c.rw.Lock()
-	c.handlers[id] = msg
-	c.rw.Unlock()
-}
-
-func (c *callbacks) Delete(id string) {
-	c.rw.Lock()
-	delete(c.handlers, id)
-	c.rw.Unlock()
+	rw   sync.RWMutex
+	list map[string]*handler
 }
 
 func (c *callbacks) Handle(msg *pb.Event) {
+	cb, ok := c.get(msg.Name)
+	if !ok {
+		return
+	}
+	go cb.handle(msg)
+}
+
+func (c *callbacks) Add(event string, fn func(ctx context.Context, payload []byte)) string {
+	cb, ok := c.get(event)
+	if !ok {
+		cb = &handler{}
+		c.add(event, cb)
+	}
+
+	id := cb.add(fn)
+	return id
+}
+
+func (c *callbacks) Delete(event, id string) {
+	cb, ok := c.get(event)
+	if !ok {
+		return
+	}
+	cb.delete(id)
+}
+
+func (c *callbacks) get(event string) (*handler, bool) {
 	c.rw.RLock()
 	defer c.rw.RUnlock()
+	cb, ok := c.list[event]
+	return cb, ok
+}
 
-	if ch, ok := c.handlers[msg.Id]; ok {
-		ch <- msg
-	}
+func (c *callbacks) add(event string, cb *handler) {
+	c.rw.Lock()
+	defer c.rw.Unlock()
+	c.list[event] = cb
 }
