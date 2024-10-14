@@ -45,11 +45,26 @@ func (r *Request) Sub(event string) ([]byte, error) {
 		close(res)
 	}()
 
-	id := uuid.New().String()
+	md := fromContext(r.context)
+	var id string
+	var brand string
+	var errMsg string
+	if md == nil {
+		id = uuid.New().String()
+	} else {
+		id = md.eventId
+		brand = md.brand
+		if md.error != nil {
+			errMsg = md.error.Error()
+		}
+	}
+
 	r.connector.Pub(&pb.Event{
-		Name:    r.name,
-		Payload: r.payload,
 		Id:      id,
+		Name:    r.name,
+		Brand:   brand,
+		Payload: r.payload,
+		Error:   errMsg,
 	})
 
 	cbId := fmt.Sprintf("%s:%s", event, id)
@@ -59,11 +74,19 @@ func (r *Request) Sub(event string) ([]byte, error) {
 	var err error
 	select {
 	case msg := <-res:
-		payload = msg.Payload
+		if msg.Error != "" {
+			err = fmt.Errorf(msg.Error)
+		} else {
+			payload = msg.Payload
+		}
 
 	case <-r.context.Done():
 		r.subscribers.Delete(cbId)
 		err = r.context.Err()
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return payload, err
